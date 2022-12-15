@@ -1,10 +1,24 @@
-import { Link } from '@remix-run/react';
+import {
+  Form,
+  Link,
+  useActionData,
+  useTransition as useNavigation,
+} from '@remix-run/react';
 
 export default function ExpenseForm() {
   const today = new Date().toISOString().slice(0, 10); // yields something like 2023-09-10
+  const { state } = useNavigation();
+  // "idle" means everything is normal, if state is
+  // not idle, means something is happening
+  const isSubmitting = state !== 'idle';
 
+  // This will coming from "action" function of add.jsx
+  const validationErrors = useActionData();
+
+  // technically if it is the same path, "action"
+  // is not required
   return (
-    <form method="post" className="form" id="expense-form">
+    <Form action="." method="post" className="form" id="expense-form">
       <p>
         <label htmlFor="title">Expense Title</label>
         <input type="text" id="title" name="title" required maxLength={30} />
@@ -27,10 +41,19 @@ export default function ExpenseForm() {
           <input type="date" id="date" name="date" max={today} required />
         </p>
       </div>
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map((error, i) => (
+            <li key={i}>{error}</li>
+          ))}
+        </ul>
+      )}
       <div className="form-actions">
-        <button>Save Expense</button>
+        <button disabled={isSubmitting}>
+          {isSubmitting ? 'Saving...' : 'Save Expense'}
+        </button>
         <Link to="..">Cancel</Link>
       </div>
-    </form>
+    </Form>
   );
 }

@@ -1,0 +1,27 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model Expense {
+  // @id tells that this will act as the primary
+  // id of the data entry
+  // "Auto" means new id generated automatically
+  // "Map" means map the _id to id
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  // no special annotations are needed, because 
+  // they are not auto generated
+  title     String
+  amount    Float
+  date      DateTime
+  // value should be created automatically, and 
+  // that should be Date.now()
+  dateAdded DateTime @default(now())
+}
