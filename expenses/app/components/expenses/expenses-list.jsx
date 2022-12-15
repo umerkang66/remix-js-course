@@ -1,10 +1,9 @@
-import ExpenseListItem from './ExpenseListItem';
+import ExpenseListItem from './expense-list-item';
 
 function ExpensesList({ expenses }) {
-
   return (
     <ol id="expenses-list">
-      {expenses.map((expense) => (
+      {expenses.map(expense => (
         <li key={expense.id}>
           <ExpenseListItem
             id={expense.id}

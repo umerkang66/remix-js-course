@@ -1,4 +1,4 @@
-import ChartBar from './ChartBar';
+import ChartBar from './chart-bar';
 
 function Chart({ expenses }) {
   const chartDataPoints = [
@@ -21,14 +21,14 @@ function Chart({ expenses }) {
     chartDataPoints[expenseMonth].value += expense.amount;
   }
 
-  const dataPointValues = chartDataPoints.map((dataPoint) => dataPoint.value);
+  const dataPointValues = chartDataPoints.map(dataPoint => dataPoint.value);
   const totalMaximum = Math.max(...dataPointValues);
 
   return (
     <section>
       <h2>Monthly Expenses</h2>
-      <ol className='chart'>
-        {chartDataPoints.map((dataPoint) => (
+      <ol className="chart">
+        {chartDataPoints.map(dataPoint => (
           <ChartBar
             key={dataPoint.label}
             value={dataPoint.value}
