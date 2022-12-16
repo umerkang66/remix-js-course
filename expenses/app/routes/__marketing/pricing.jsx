@@ -38,4 +38,9 @@ export default function PricingPage() {
   );
 }
 
-export function meta() {}
+export function meta() {
+  return {
+    title: 'Pricing - Remix Expenses',
+    description: 'See our pricing plans',
+  };
+}

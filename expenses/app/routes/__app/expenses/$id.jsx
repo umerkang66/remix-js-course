@@ -44,3 +44,14 @@ export async function action({ params: { id }, request }) {
     return { id: expense.id };
   }
 }
+
+export function meta({ params, parentsData }) {
+  const expense = parentsData['routes/__app/expenses'].find(
+    expense => expense.id === params.id
+  );
+
+  return {
+    title: `Update: ${expense.title}`,
+    description: 'Update Expense',
+  };
+}

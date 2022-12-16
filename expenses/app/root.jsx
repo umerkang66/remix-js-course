@@ -14,15 +14,15 @@ import Error from './components/util/error';
 
 export const meta = () => ({
   charset: 'utf-8',
-  title: 'New Remix App',
+  title: 'Remix Expenses',
   viewport: 'width=device-width,initial-scale=1',
 });
 
-function Document({ title = 'Remix Expenses', children }) {
+function Document({ title, children }) {
   return (
     <html lang="en">
       <head>
-        <title>{title}</title>
+        {title && <title>{title}</title>}
         <Meta />
         <Links />
         <link rel="preconnect" href="https://fonts.googleapis.com" />
