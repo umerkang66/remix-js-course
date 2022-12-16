@@ -10,6 +10,13 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id       String    @id @default(auto()) @map("_id") @db.ObjectId
+  email    String    @unique
+  password String
+  expenses Expense[]
+}
+
 model Expense {
   // @id tells that this will act as the primary
   // id of the data entry
@@ -24,4 +31,6 @@ model Expense {
   // value should be created automatically, and 
   // that should be Date.now()
   dateAdded DateTime @default(now())
+  User      User     @relation(fields: [userId], references: [id])
+  userId    String   @db.ObjectId
 }

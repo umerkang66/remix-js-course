@@ -6,6 +6,7 @@ import { Outlet } from '@remix-run/react';
 
 import marketingStyles from '~/styles/marketing.css';
 import MainHeader from '~/components/navigation/main-header';
+import { getUserFromSession } from '~/data/auth.server';
 
 // It is not "__marketing/pricing", instead it is the
 // same "/pricing", and same with the "index" page
@@ -18,6 +19,10 @@ export default function MarketingLayout() {
       <Outlet />;
     </>
   );
+}
+
+export function loader({ request }) {
+  return getUserFromSession(request);
 }
 
 // This will shared by every component, that is in

@@ -4,6 +4,7 @@ import Chart from '~/components/expenses/chart';
 import ExpenseStatistics from '~/components/expenses/expense-statistics';
 import Error from '~/components/util/error';
 import { getExpenses } from '~/data/expenses.server';
+import { requireUserSession } from '~/data/auth.server';
 
 export default function ExpenseAnalysisPage() {
   const expenses = useLoaderData();
@@ -16,8 +17,11 @@ export default function ExpenseAnalysisPage() {
   );
 }
 
-export async function loader() {
-  const expenses = await getExpenses();
+export async function loader({ request }) {
+  // because this will "throw" the "redirect", there is nothing else we have to do
+  const userId = await requireUserSession(request);
+
+  const expenses = await getExpenses(userId);
 
   if (!expenses || !expenses.length) {
     throw json(

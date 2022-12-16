@@ -1,6 +1,6 @@
 import { prisma } from './database.server';
 
-export async function addExpense(expenseData) {
+export async function addExpense(expenseData, userId) {
   try {
     // resolve value will be expense that is created
     return await prisma.expense.create({
@@ -8,6 +8,9 @@ export async function addExpense(expenseData) {
         title: expenseData.title,
         amount: +expenseData.amount,
         date: new Date(expenseData.date),
+        // connect this expense, with the existing
+        // user that has this id
+        User: { connect: { id: userId } },
       },
     });
   } catch (err) {
@@ -16,10 +19,11 @@ export async function addExpense(expenseData) {
   }
 }
 
-export async function getExpenses() {
+export async function getExpenses(userId) {
   try {
     return await prisma.expense.findMany({
       orderBy: { date: 'desc' },
+      where: { userId },
     });
   } catch (err) {
     console.log('✨✨✨', err);
@@ -28,6 +32,7 @@ export async function getExpenses() {
 }
 
 export async function getExpense(id) {
+  // we are currently not using this
   try {
     return await prisma.expense.findFirst({ where: { id } });
   } catch (err) {

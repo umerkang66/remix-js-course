@@ -3,9 +3,9 @@ import { Link, useFetcher } from '@remix-run/react';
 function ExpenseListItem({ id, title, amount }) {
   const fetcher = useFetcher();
   function deleteExpenseItemHandler() {
-    const proceed = confirm('Are you sure? Do you want to delete this item?');
+    // const proceed = confirm('Are you sure? Do you want to delete this item?');
 
-    if (!proceed) return;
+    // if (!proceed) return;
 
     // this will not navigate, but send the request,
     // behind the scenes

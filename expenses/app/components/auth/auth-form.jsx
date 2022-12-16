@@ -1,12 +1,13 @@
 import {
   Form,
   Link,
+  useActionData,
   useSearchParams,
   useTransition as useNavigation,
 } from '@remix-run/react';
 import { FaLock, FaUserPlus } from 'react-icons/fa';
 
-export default function AuthForm() {
+function AuthForm() {
   // get the query params from the url
   // we can also set the params, by the second value
   // after the searchParams
@@ -15,6 +16,9 @@ export default function AuthForm() {
 
   const navigation = useNavigation();
   const isSubmitting = navigation.state !== 'idle';
+
+  // ValidationErrors are returned from action of auth.jsx
+  const validationErrors = useActionData();
 
   const submitBtnCaption = authMode === 'login' ? 'Login' : 'Create User';
   const toggleBtnCaption =
@@ -33,6 +37,13 @@ export default function AuthForm() {
         <label htmlFor="password">Password</label>
         <input type="password" id="password" name="password" minLength={7} />
       </p>
+      {validationErrors && (
+        <ul>
+          {Object.values(validationErrors).map((error, i) => (
+            <li key={i}>{error}</li>
+          ))}
+        </ul>
+      )}
       <div className="form-actions">
         <button disabled={isSubmitting}>
           {isSubmitting ? 'Submitting...' : submitBtnCaption}
@@ -44,3 +55,5 @@ export default function AuthForm() {
     </Form>
   );
 }
+
+export default AuthForm;

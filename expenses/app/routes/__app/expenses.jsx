@@ -4,6 +4,7 @@ import { Link, Outlet, useLoaderData } from '@remix-run/react';
 import { FaDownload, FaPlus } from 'react-icons/fa';
 import ExpensesList from '~/components/expenses/expenses-list';
 import { getExpenses } from '~/data/expenses.server';
+import { requireUserSession } from '~/data/auth.server';
 
 export default function ExpensesLayout() {
   // This data is serialized, doesn't contains any
@@ -42,8 +43,11 @@ export default function ExpensesLayout() {
 // "Loader" must return a "Response" instance,
 // if we return simple obj, remix will automatically
 // convert it into response, using "json" function
-export async function loader() {
+export async function loader({ request }) {
+  // because this will "throw" the "redirect", there is nothing else we have to do
+  const userId = await requireUserSession(request);
+
   // This returns a promise, that will automatically
   // resolved
-  return getExpenses();
+  return getExpenses(userId);
 }
