@@ -11,7 +11,7 @@ export default function AddExpensePage() {
 
   return (
     <Modal onClose={() => navigate('..')}>
-      <ExpenseForm />;
+      <ExpenseForm />
     </Modal>
   );
 }

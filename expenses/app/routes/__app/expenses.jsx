@@ -1,4 +1,5 @@
 // If there is also a fine with the same name as folder, this acts as layout file for that folder route
+
 import { Link, Outlet, useLoaderData } from '@remix-run/react';
 import { FaDownload, FaPlus } from 'react-icons/fa';
 import ExpensesList from '~/components/expenses/expenses-list';
@@ -8,6 +9,7 @@ export default function ExpensesLayout() {
   // This data is serialized, doesn't contains any
   // complex objects
   const expenses = useLoaderData();
+  const hasExpenses = expenses && expenses.length > 0;
 
   return (
     <>
@@ -23,7 +25,15 @@ export default function ExpensesLayout() {
             <span>Get Raw Data</span>
           </a>
         </section>
-        <ExpensesList expenses={expenses} />
+        {hasExpenses && <ExpensesList expenses={expenses} />}
+        {!hasExpenses && (
+          <section id="no-expenses">
+            <h1>No expenses found</h1>
+            <p>
+              Start <Link to="add">adding some</Link> today.
+            </p>
+          </section>
+        )}
       </main>
     </>
   );
@@ -32,7 +42,7 @@ export default function ExpensesLayout() {
 // "Loader" must return a "Response" instance,
 // if we return simple obj, remix will automatically
 // convert it into response, using "json" function
-export function loader() {
+export async function loader() {
   // This returns a promise, that will automatically
   // resolved
   return getExpenses();
